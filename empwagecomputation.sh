@@ -1,31 +1,61 @@
 
+
 #!/bin/bash
 
-WAGE_PER_HOUR=20
-TOTAL_WORKING_HOURS=100
-TOTAL_WORKING_DAYS=20
-hours_worked=0
-days_worked=0
-total_wages=0
+EMPLOYEE_WAGE_PER_HOUR=20;
+WORKING_HOUR=8;
+PRESENT=1;
+PART_TIME=2;
+MAX_WORKING_HOUR=40;
+MAX_WORKING_DAYS=20;
+totalWorkingHour=0;
+day=0;
 
-get_work_hours() {
-  read -p "Enter the number of work hours for day $1: " hours_per_day
-  echo $hours_per_day
+function calculateWorkingHour() {
+	case $1 in
+		$PRESENT)
+			 workingHour=$WORKING_HOUR;
+		;;
+		$PART_TIME)
+			workingHour=$((WORKING_HOUR/2));
+		;;
+		*)
+			workingHour=0;
+		;;
+	esac
+	echo $workingHour;
 }
 
-while [[ $hours_worked -lt $TOTAL_WORKING_HOURS && $days_worked -lt $TOTAL_WORKING_DAYS ]]
+
+while [[ $day -le MAX_WORKING_HOUR && $totalWorkingHour -lt MAX_WORKING_HOUR ]]
 do
-  # Get work hours for current day
-  hours_per_day=$(get_work_hours $(($days_worked + 1)))
+	if [ $totalWorkingHour -eq $((MAX_WORKING_HOUR-WORKING_HOUR/2)) ]
+	then
+		isPresent=$PART_TIME;
+	else
+		isPresent=$((RANDOM%3));
+	fi
+	
+	empHour=$(calculateWorkingHour $isPresent);
+	dailyWage[((day++))]=$((empHour * EMPLOYEE_WAGE_PER_HOUR));
 
-  # Calculate daily wage
-  daily_wage=$(($WAGE_PER_HOUR * $hours_per_day))
-
-  total_wages=$(($total_wages + $daily_wage))
-
-  hours_worked=$(($hours_worked + $hours_per_day))
-  days_worked=$(($days_worked + 1))
+	totalWorkingHour=$((totalWorkingHour + empHour));
 done
 
-echo "Total wages earned: $total_wages"
+totalSalary=$(($totalWorkingHour * EMPLOYEE_WAGE_PER_HOUR))
 
+echo "Employee Total Working Hour: " $totalWorkingHour;
+echo "Monthly Wage : " $totalSalary;
+echo "Total Working Days : " $day;
+
+echo "-------------------------------------------------";
+
+echo "DailyWage : " ${dailyWage[@]};
+echo "Size of DailyWage Array : "${#dailyWage[@]};
+
+echo "-------------------------------------------------";
+
+for((i=0;i<${#dailyWage[@]};i++))
+do
+	echo "Day $i earning : " ${dailyWage[i]} "USD";
+done
