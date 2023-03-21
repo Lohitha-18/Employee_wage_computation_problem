@@ -1,18 +1,30 @@
 
 #!/bin/bash
 
-PRESENT=1; 
-PART_TIME=2
-isPresent=$((RANDOM%3)); #0-Absent 1-Present 2-Part_time
+perHourSalary=20;
+workingHour=0;
+totalSalary=0;
 
-case $isPresent in 
-	0)
-		echo "Employee is Absent";
-	;;
-	1)
-		echo "Employee is Present";
-	;;
-	2)
-		echo "Employee is working as part time";
-	;;
-esac
+for((day=1;day<=20;day++))
+do
+	isPresent=$((RANDOM%3));
+	case $isPresent in
+		0)
+			echo "Emp is Absent";
+			workingHour=0;
+		;;
+		1)
+			echo "Emp is Present";
+			workingHour=8;
+		;;
+		2)
+			echo "Emp is working part-time";
+			workingHour=4;
+		;;
+	esac
+
+	salary=$(($perHourSalary * $workingHour));
+	totalSalary=$(($totalSalary + $salary));
+done
+
+echo "Employee has earned $totalSalary $ in a month";
