@@ -1,9 +1,16 @@
+
 #!/bin/bash
 
-# Define variables
-WAGE_PER_HOUR=20
-FULL_DAY_HOURS=9
+PRESENT=1; 
+PART_TIME=2
+isPresent=$((RANDOM%3)); #0-Absent 1-Present 2-Part_time
 
-DAILY_WAGE=$(($WAGE_PER_HOUR * $FULL_DAY_HOURS))
-
-echo "Daily wage is $DAILY_WAGE"
+if [ $isPresent -eq $PRESENT ]
+then
+	echo "Employee is Present";
+elif [  $isPresent -eq $PART_TIME ]
+then
+	echo "Employee is working as part time";
+else
+	echo "Employee is Absent";
+fi
