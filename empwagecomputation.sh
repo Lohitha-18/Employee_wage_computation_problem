@@ -1,30 +1,25 @@
 
 #!/bin/bash
 
-perHourSalary=20;
-workingHour=0;
-totalSalary=0;
+WAGE_PER_HOUR=20
+TOTAL_WORKING_HOURS=100
+TOTAL_WORKING_DAYS=20
+hours_worked=0
+days_worked=0
+total_wages=0
 
-for((day=1;day<=20;day++))
+while [[ $hours_worked -lt $TOTAL_WORKING_HOURS && $days_worked -lt $TOTAL_WORKING_DAYS ]]
 do
-	isPresent=$((RANDOM%3));
-	case $isPresent in
-		0)
-			echo "Emp is Absent";
-			workingHour=0;
-		;;
-		1)
-			echo "Emp is Present";
-			workingHour=8;
-		;;
-		2)
-			echo "Emp is working part-time";
-			workingHour=4;
-		;;
-	esac
+  # Calculate daily wage
+  daily_wage=$(($WAGE_PER_HOUR * $hours_per_day))
 
-	salary=$(($perHourSalary * $workingHour));
-	totalSalary=$(($totalSalary + $salary));
+  # Add daily wage to total wages
+  total_wages=$(($total_wages + $daily_wage))
+
+  # Increment hours and days worked
+  hours_worked=$(($hours_worked + $hours_per_day))
+  days_worked=$(($days_worked + 1))
 done
 
-echo "Employee has earned $totalSalary $ in a month";
+# Output total wages earned
+echo "Total wages earned: $total_wages"
