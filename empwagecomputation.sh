@@ -1,11 +1,9 @@
 #!/bin/bash
 
-PRESENT=1;
-isPresent=$((RANDOM%2)); #(0 or 1)
+# Define variables
+WAGE_PER_HOUR=20
+FULL_DAY_HOURS=9
 
-if [ $isPresent -eq $PRESENT ]
-then
-	echo "Employee is Present";
-else
-	echo "Employee is Absent";
-fi
+DAILY_WAGE=$(($WAGE_PER_HOUR * $FULL_DAY_HOURS))
+
+echo "Daily wage is $DAILY_WAGE"
